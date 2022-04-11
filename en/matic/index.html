@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, shrink-to-fit=no"
+		/>
+		<meta name="description" content="Dwen_SALE Blockchain Incubation Platform" />
+
+		<title>Dwen_SALE Blockchain Incubation Platform</title>
+
+		<link rel="stylesheet" href="../../css/bootstrap.min.css" />
+		<link rel="stylesheet" href="../../css/bootstrap-icons.css" />
+
+		<script src="../../css/jquery.min.js"></script>
+		<script src="../../css/bootstrap.bundle.min.js"></script>
+
+		<script src="../../css/vue.js"></script>
+
+		<script src="../../css/ethers.umd.min.js"></script>
+		<script src="dapp.js"></script>
+
+		<style type="text/css">
+			#bottonStyle {
+				outline: none; /*去除点击后样式的核心代码*/
+				border-style: none;
+			}
+		</style>
+	</head>
+	<body style="background-color: black">
+         <style>  
+div.wid{ 
+    width:125px;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    -o-text-overflow:ellipsis;
+    overflow: hidden;
+ }  
+
+
+div.body { padding-top: 130px; }
+
+
+
+
+
+
+ </style>  
+<div id="vm">
+
+
+  
+		<header class="p-3 bg-dark text-white fixed-top">
+			<div class="container ">
+				<div
+					class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
+				>
+				<img src="../../img/fi.png" alt="">
+        
+					<ul
+						class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"
+					>
+						<li><a href="https://xiaopang.org" class="nav-link px-2 text-white">HOME</a></li>
+						<li><a href="#" class="nav-link px-2 text-secondary">MINT</a></li>
+						<li><a href="#" class="nav-link px-2 text-secondary disabled">Liquid pledge</a></li>
+						<li><a href="#" class="nav-link px-2 text-secondary disabled">airdrop</a></li>
+						<li><a href="#" class="nav-link px-2 text-secondary disabled">Website building
+</a></li>
+					</ul>
+      <a href="../../mint/matic/" class="nav-link px-2 text-white" > 中文简体<img src="../../img/china.png" alt="china" style="height: 39px;"></a>
+					<div class="text-end">
+
+ 
+      <form class="d-flex" >
+    
+        
+         <button  class="btn btn-outline-success"  id="wallet" v-if="!ready && !wrongNetwork" v-on:click="connectWallet" type="button" > connect wallet </button>
+         <span class="badge bg-success" v-if="ready "><div >connection succeeded:<span  href="#0"   v-text="account"></div></span></span>
+         <span class="badge bg-danger"  v-if="wrongNetwork"  >Please switch to Matic Mainnet Chain</span>
+        
+         
+      </form>
+
+
+       
+
+
+					</div>
+				</div>
+			</div>
+		</header>
+
+
+
+<!--  -->
+
+
+ <!-- Loading Modal -->
+  <div id="loadingModal" class="modal fade" role="dialog" aria-hidden="true" aria-labelledby="loadingLabel">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header align-items-center d-flex">
+          <h4 class="modal-title x-title" id="loadingLabel">&nbsp;</h4>
+        </div>
+        <div class="modal-body">
+          <div class="float-start">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+          <div class="ms-5 ps-4 float-none">
+            <p class="x-message">&nbsp;</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Alert Modal -->
+  <div id="alertModal" class="modal fade" role="dialog" aria-hidden="true" aria-labelledby="alertLabel">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header align-items-center d-flex">
+          <h4 class="modal-title x-title" id="alertLabel">&nbsp;</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true"><i class="fe fe-x-circle"></i></span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="float-start">
+            <i class="fs-2 text-danger fe fe-alert-triangle"></i>
+          </div>
+          <div class="ms-5 ps-4 float-none">
+            <p class="x-message">&nbsp;</p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline-primary" data-bs-dismiss="modal" aria-label="Close">
+            OK
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Info Modal -->
+  <div id="infoModal" class="modal fade" role="dialog" aria-hidden="true" aria-labelledby="infoLabel">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header align-items-center d-flex">
+          <h4 class="modal-title x-title" id="infoLabel">&nbsp;</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true"><i class="fe fe-x-circle"></i></span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="float-start">
+            <i class="fs-2 fe fe-info"></i>
+          </div>
+          <div class="ms-5 ps-4 float-none">
+            <p class="x-message">&nbsp;</p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline-primary" data-bs-dismiss="modal" aria-label="Close">
+            OK
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+<!-- 正文 -->
+
+
+
+
+
+<div class="container-lg  body ">
+ <div class="row mb-3 ">
+       <div class="col-md-4 themed-grid-col" >
+      
+
+
+
+
+
+        
+          <ul class="list-group mb-3" style="text-align: center;" >
+          <li class="list-group-item d-flex justify-content-between lh-sm">
+            <div>
+              <h3 class="my-0" >terms and Conditions</h3>
+             
+            </div>
+          </li>
+          <li class="list-group-item d-flex justify-content-between lh-sm">
+            <div class="text-success">
+              <h6 class="my-0"><strong>Public beta is underway, currently only 1 Matic Coin is required</strong> </h6>
+             
+            </div>
+            
+          </li>
+          <li class="list-group-item d-flex justify-content-between lh-sm">
+            <div class="text-success">
+              <h6 class="my-0"><strong>Tokens deployed using this protocol are exempt from auditing</strong> </h6>
+             
+            </div>
+            
+          </li>
+          <li class="list-group-item d-flex justify-content-between lh-sm">
+            <div class="text-success">
+              <h6 class="my-0"><strong>Certificate issuance (coming soon)</strong> </h6>
+             
+            </div>
+            
+          </li>
+                
+
+        </ul>   
+      
+
+           <ul class="list-group mb-3" >
+          <li class="list-group-item d-flex justify-content-between lh-sm">
+            <div class="new-address">
+              <h6 class="my-0">Your recently deployed token</h6>
+
+            </div>
+
+          </li>
+          <li class="list-group-item d-flex justify-content-between lh-sm">
+            <div>
+              <h6 class="my-0">{{newContractAddress}}</h6>
+
+            </div>
+
+        </ul>   
+      
+      
+
+      
+      
+      
+      </div>
+      
+      <div class="col-md-8 themed-grid-col "  >
+             
+ <a href="../../en/matic/" ><button type="button"  class="btn btn-outline-success">matic base token</button></a>
+ <a href="../../en/bsc/" ><button type="button" class="btn btn-outline-success">BSC base token</button></a>
+ <a href="../../en/heco/" ><button type="button" class="btn btn-outline-success">HECO base token</button></a>
+ <a href="../../en/okx/" ><button type="button" class="btn btn-outline-success">OKX base token</button></a>
+ <a href="../../en/zvx/" ><button type="button" class="btn btn-outline-success">Dwen_SALE protocol full-featured token</button></a>
+<div class="card text-white bg-dark mb-3" >
+  <br>
+  <label for="inputPassword5" class="form-label container "  ><h3 >matic base token deployment</h3> </label>
+  <div class="card-body">
+
+    <label for="inputPassword5" class="form-label  "  ><strong><h4>
+Token Basic Information</h4> </strong> </label>
+    <form  v-on:submit.prevent="createChild">
+
+   <div class="row g-3">
+  <div class="col">
+   
+    <input autocomplete="off" type="text" v-model="name" class="form-control"      id="inputPasswor2"    required    placeholder="token_name" >
+  </div>
+  <div class="col">
+
+    <input autocomplete="off" type="text" v-model="symbol" class="form-control"      id="inputPasswor3"     required     placeholder="symbol" >
+  </div>
+  </div>
+ <br>
+<div class="row g-3">
+  <div class="col">
+    
+    <input autocomplete="off" type="text" v-model="totalSupply" class="form-control"      id="inputPasswor2"   required       placeholder="_total_supply" >
+  </div>
+  <!-- <div class="col-2">
+<button type="submit" class="btn btn-success">提交</button>
+  </div> -->
+  </div>
+  <br>
+  <div class="row g-3">
+  <div class="col">
+    <div class="alert alert-success" role="alert">
+After deployment, the contract management rights are automatically owned by the address where you issued the coins, and the tokens will also enter the address where you issued the coins.
+</div>
+  </div>
+  <!-- <div class="col-2">
+<button type="submit" class="btn btn-success">提交</button>
+  </div> -->
+  </div>
+
+
+<div class="col row g-3">
+<button type="submit"  @click="shuzu" class="btn btn-success">submit</button>
+  </div>
+
+
+</form>  
+    
+
+
+
+
+  </div>
+</div>
+
+
+
+
+
+
+
+      </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<!-- 结束 -->
+
+        </div>
+
+
+<!-- 底部 -->
+
+<div style="background-color: rgba(34, 34, 34);">
+  <div style="height: 30px;"></div>
+<nav class="container">
+    <div class="row mb-3">
+      <div class="col-6 col-md-2 themed-grid-col" style="height: 50px;" ><img src="../../img/1.png"  style="width: 170px;height: 36px;"  alt=""></div>
+      <div class="col-6 col-md-2 themed-grid-col" style="height: 50px;"><img src="../../img/2.png"  style="width: 170px;height: 36px;"  alt=""></div>
+      <div class="col-6 col-md-2 themed-grid-col" style="height: 50px;"><img src="../../img/3.png"  style="width: 170px;height: 36px;"  alt=""></div>
+      <div class="col-6 col-md-2 themed-grid-col" style="height: 50px;"><img src="../../img/4.png"  style="width: 170px;height: 36px;"  alt=""></div>
+      <div class="col-6 col-md-2 themed-grid-col" style="height: 50px;"><img src="../../img/5.png"  style="width: 170px;height: 36px;"  alt=""></div>
+      <div class="col-6 col-md-2 themed-grid-col" style="height: 50px;"><img src="../../img/6.png"  style="width: 170px;height: 36px;"  alt=""></div>
+      <div class="col-6 col-md-2 themed-grid-col" style="height: 50px;"><img src="../../img/7.png"  style="width: 170px;height: 36px;"  alt=""></div>
+      <div class="col-6 col-md-2 themed-grid-col" style="height: 50px;"><img src="../../img/8.png"  style="width: 170px;height: 36px;"  alt=""></div>
+      <div class="col-6 col-md-2 themed-grid-col" style="height: 50px;"><img src="../../img/9.png"  style="width: 170px;height: 36px;"  alt=""></div>
+      <div class="col-6 col-md-2 themed-grid-col" style="height: 50px;"><img src="../../img/10.png"  style="width: 170px;height: 36px;"  alt=""></div>
+      <div class="col-6 col-md-2 themed-grid-col" style="height: 50px;"><img src="../../img/11.png"  style="width: 170px;height: 36px;"  alt=""></div>
+      <div class="col-6 col-md-2 themed-grid-col" style="height: 50px;"><img src="../../img/12.png"  style="width: 170px;height: 36px;"  alt=""></div>
+      <div class="col-6 col-md-2 themed-grid-col" style="height: 50px;"><img src="../../img/13.png"  style="width: 170px;height: 36px;"  alt=""></div>
+      <div class="col-6 col-md-2 themed-grid-col" style="height: 50px;"><img src="../../img/14.png"  style="width: 170px;height: 36px;"  alt=""></div>
+      <div class="col-6 col-md-2 themed-grid-col" style="height: 50px;"><img src="../../img/15.png"  style="width: 170px;height: 36px;"  alt=""></div>
+      <div class="col-6 col-md-2 themed-grid-col" style="height: 50px;"><img src="../../img/16.png"  style="width: 170px;height: 36px;"  alt=""></div>
+    </div>
+</nav>
+
+</div>
+
+<div class="container">
+    <br>
+  <div class="row">
+    <div class="col-sm-8"><img src="../../img/logo.png"  style="width: 125px; height: 75px;" alt=""></div>
+    <div class="col-sm-4">
+    <div class="nav justify-content-end">
+    <h4 style="color: rgb(192, 188, 188);"><strong>contact us:
+
+    <a href="https://t.me/DwenExchange_CEO" target="_black">
+    <img src="../../img/ico_telegram.png" style="height: 30px;" alt=""></a>   
+  <img src="../../img/ico_twitter.png" style="height: 30px;" alt=""> 
+  </a><img src="../../img/ico_youtube.png" style="height: 30px;" alt="" > 
+</strong>
+ </h4> 
+</div>
+</div>
+ </div>
+ </div>
+	</body>
+</html>
